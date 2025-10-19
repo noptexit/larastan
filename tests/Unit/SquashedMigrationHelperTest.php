@@ -23,6 +23,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
             [__DIR__ . '/data/schema/basic_schema'],
             self::getContainer()->getByType(FileHelper::class),
             new MySqlDataTypeToPhpTypeConverter(),
+            self::getContainer()->getService('sqlParser'),
             false,
         );
 
@@ -47,6 +48,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
             [__DIR__ . '/data/schema/multiple_schemas_for_same_table'],
             self::getContainer()->getByType(FileHelper::class),
             new MySqlDataTypeToPhpTypeConverter(),
+            self::getContainer()->getService('sqlParser'),
             false,
         );
 
@@ -71,6 +73,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
             [__DIR__ . '/data/schema/basic_schema_with_sql_extension'],
             self::getContainer()->getByType(FileHelper::class),
             new MySqlDataTypeToPhpTypeConverter(),
+            self::getContainer()->getService('sqlParser'),
             false,
         );
 
@@ -95,6 +98,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
             [__DIR__ . '/data/schema/multiple_schemas_with_different_extensions'],
             self::getContainer()->getByType(FileHelper::class),
             new MySqlDataTypeToPhpTypeConverter(),
+            self::getContainer()->getService('sqlParser'),
             false,
         );
 
@@ -128,11 +132,18 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
             [__DIR__ . '/data/schema/multiple_schemas_with_different_extensions'],
             self::getContainer()->getByType(FileHelper::class),
             new MySqlDataTypeToPhpTypeConverter(),
+            self::getContainer()->getService('sqlParser'),
             true,
         );
 
         $tables = $schemaParser->initializeTables();
 
         $this->assertSame([], $tables);
+    }
+
+    /** @return string[] */
+    public static function getAdditionalConfigFiles(): array
+    {
+        return [__DIR__ . '/../phpstan-tests.neon'];
     }
 }
