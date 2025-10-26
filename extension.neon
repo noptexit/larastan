@@ -452,7 +452,7 @@ services:
         arguments:
             databaseMigrationPath: %databaseMigrationsPath%
             disableMigrationScan: %disableMigrationScan%
-            parser: @currentPhpVersionSimpleDirectParser
+            parser: @migrationsParser
             reflectionProvider: @reflectionProvider
 
     iamcalSqlParser:
@@ -677,6 +677,13 @@ services:
     -
         class: Illuminate\Filesystem\Filesystem
         autowired: self
+
+    migrationsParser:
+        class: PHPStan\Parser\CachedParser
+        arguments:
+            originalParser: @currentPhpVersionSimpleDirectParser
+            cachedNodesByStringCountMax: %cache.nodesByStringCountMax%
+        autowired: false
 
 rules:
     - Larastan\Larastan\Rules\UselessConstructs\NoUselessWithFunctionCallsRule
