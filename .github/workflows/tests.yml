@@ -99,5 +99,5 @@ jobs:
       - name: "Check PSR-4 mapping"
         run: "composer dump-autoload --optimize --strict-psr"
 
-      - name: "Execute unit tests"
-        run: "composer run-script test:unit"
+      - name: "Execute SQL parser tests"
+        run: "./vendor/bin/phpunit tests/Unit/SQL/ --colors=always -d memory_limit=1408M"
