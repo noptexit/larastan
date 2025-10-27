@@ -29,8 +29,8 @@ function testWriteToProperty(User $user): void
     $user->created_at = now();
     $user->created_at = null;
     $user->created_at = BaseCarbon::now();
-    $user->counter = -5; // Should raise an error
-    $user->counter_2 = -5; // Should raise an error
+    $user->unsigned_integer = -5; // Should raise an error
+    $user->unsigned_integer_method = -5; // Should raise an error
 }
 
 /** @return mixed */
