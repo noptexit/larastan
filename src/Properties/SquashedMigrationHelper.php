@@ -78,7 +78,7 @@ final class SquashedMigrationHelper
                 foreach ($definition->columns as $column) {
                     $table->setColumn(new SchemaColumn(
                         $column->name,
-                        $this->converter->convert($column->type),
+                        $this->converter->convert($column->type, $column->typeOptions),
                         $column->nullable,
                     ));
                 }

@@ -33,7 +33,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
         $this->assertArrayHasKey('accounts', $tables);
         $this->assertCount(6, $tables['accounts']->columns);
         $this->assertSame(['id', 'name', 'active', 'description', 'created_at', 'updated_at'], array_keys($tables['accounts']->columns));
-        $this->assertSame('int', $tables['accounts']->columns['id']->readableType);
+        $this->assertSame('non-negative-int', $tables['accounts']->columns['id']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['name']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['active']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['description']->readableType);
@@ -58,7 +58,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
         $this->assertArrayHasKey('accounts', $tables);
         $this->assertCount(6, $tables['accounts']->columns);
         $this->assertSame(['id', 'name', 'active', 'description', 'created_at', 'updated_at'], array_keys($tables['accounts']->columns));
-        $this->assertSame('int', $tables['accounts']->columns['id']->readableType);
+        $this->assertSame('non-negative-int', $tables['accounts']->columns['id']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['name']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['active']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['description']->readableType);
@@ -83,7 +83,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
         $this->assertArrayHasKey('accounts', $tables);
         $this->assertCount(6, $tables['accounts']->columns);
         $this->assertSame(['id', 'name', 'active', 'description', 'created_at', 'updated_at'], array_keys($tables['accounts']->columns));
-        $this->assertSame('int', $tables['accounts']->columns['id']->readableType);
+        $this->assertSame('non-negative-int', $tables['accounts']->columns['id']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['name']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['active']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['description']->readableType);
@@ -108,7 +108,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
         $this->assertArrayHasKey('accounts', $tables);
         $this->assertCount(6, $tables['accounts']->columns);
         $this->assertSame(['id', 'name', 'active', 'description', 'created_at', 'updated_at'], array_keys($tables['accounts']->columns));
-        $this->assertSame('int', $tables['accounts']->columns['id']->readableType);
+        $this->assertSame('non-negative-int', $tables['accounts']->columns['id']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['name']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['active']->readableType);
         $this->assertSame('string', $tables['accounts']->columns['description']->readableType);
@@ -117,7 +117,7 @@ class SquashedMigrationHelperTest extends PHPStanTestCase
         $this->assertArrayHasKey('users', $tables);
         $this->assertCount(6, $tables['users']->columns);
         $this->assertSame(['id', 'name', 'active', 'description', 'created_at', 'updated_at'], array_keys($tables['users']->columns));
-        $this->assertSame('int', $tables['users']->columns['id']->readableType);
+        $this->assertSame('non-negative-int', $tables['users']->columns['id']->readableType);
         $this->assertSame('string', $tables['users']->columns['name']->readableType);
         $this->assertSame('string', $tables['users']->columns['active']->readableType);
         $this->assertSame('string', $tables['users']->columns['description']->readableType);

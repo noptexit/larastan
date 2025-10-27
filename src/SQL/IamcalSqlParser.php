@@ -9,7 +9,6 @@ use iamcal\SQLParserSyntaxException;
 
 use function array_key_exists;
 use function is_array;
-use function is_bool;
 use function is_string;
 
 final class IamcalSqlParser implements SqlParser
@@ -53,7 +52,8 @@ final class IamcalSqlParser implements SqlParser
                 $columns[] = new ColumnDefinition(
                     $fieldName,
                     $fieldType,
-                    $this->resolveNullableFlag($field),
+                    $this->resolveTypeOptions($field),
+                    $field['null'] ?? false,
                 );
             }
 
@@ -63,23 +63,19 @@ final class IamcalSqlParser implements SqlParser
         return $tables;
     }
 
-    /** @param array<string, mixed> $field */
-    private function resolveNullableFlag(array $field): bool
+    /**
+     * @param array<string, mixed> $field
+     *
+     * @return list<lowercase-string>
+     */
+    private function resolveTypeOptions(array $field): array
     {
-        if (! array_key_exists('null', $field)) {
-            return false;
+        $result = [];
+
+        if (array_key_exists('unsigned', $field) && $field['unsigned']) {
+            $result[] = 'unsigned';
         }
 
-        $nullFlag = $field['null'];
-
-        if (is_bool($nullFlag)) {
-            return $nullFlag;
-        }
-
-        if (is_string($nullFlag)) {
-            return $nullFlag === 'YES';
-        }
-
-        return false;
+        return $result;
     }
 }

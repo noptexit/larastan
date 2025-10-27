@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Larastan\Larastan\SQL;
 
 use PhpMyAdmin\SqlParser\Components\CreateDefinition;
+use PhpMyAdmin\SqlParser\Components\OptionsArray;
 use PhpMyAdmin\SqlParser\Exceptions\ParserException;
 use PhpMyAdmin\SqlParser\Parser;
 use PhpMyAdmin\SqlParser\Statements\CreateStatement;
 
-use function array_filter;
 use function is_array;
+use function strtolower;
 
 final class PhpMyAdminSqlParser implements SqlParser
 {
@@ -23,15 +24,13 @@ final class PhpMyAdminSqlParser implements SqlParser
             throw SqlParserFailure::create('Failed to parse SQL schema with phpmyadmin/sql-parser.', $exception);
         }
 
-        $createStatements = array_filter(
-            $parser->statements,
-            static fn (object $statement): bool => $statement instanceof CreateStatement
-                && $statement->name?->table !== null,
-        );
-
         $tables = [];
 
-        foreach ($createStatements as $statement) {
+        foreach ($parser->statements as $statement) {
+            if (! $statement instanceof CreateStatement || $statement->name?->table === null) {
+                continue;
+            }
+
             $tableName = $statement->name->table;
 
             if (! is_array($statement->fields)) {
@@ -41,10 +40,6 @@ final class PhpMyAdminSqlParser implements SqlParser
             $columns = [];
 
             foreach ($statement->fields as $field) {
-                if (! $field instanceof CreateDefinition) {
-                    continue;
-                }
-
                 if ($field->name === null || $field->type === null) {
                     continue;
                 }
@@ -52,6 +47,7 @@ final class PhpMyAdminSqlParser implements SqlParser
                 $columns[] = new ColumnDefinition(
                     $field->name,
                     $field->type->name,
+                    $this->convertTypeOptions($field->type->options),
                     $this->isNullable($field),
                 );
             }
@@ -62,9 +58,24 @@ final class PhpMyAdminSqlParser implements SqlParser
         return $tables;
     }
 
-    /** @param CreateDefinition $definition */
-    private function isNullable(object $definition): bool
+    private function isNullable(CreateDefinition $definition): bool
     {
         return ! $definition->options?->has('NOT NULL');
+    }
+
+    /** @return list<lowercase-string> */
+    private function convertTypeOptions(OptionsArray $options): array
+    {
+        $result = [];
+
+        foreach ($options->options as $option) {
+            if (is_array($option)) {
+                $result[] = strtolower($option['name']);
+            } else {
+                $result[] = strtolower($option);
+            }
+        }
+
+        return $result;
     }
 }
