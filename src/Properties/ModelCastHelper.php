@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Casts\AsEncryptedArrayObject;
 use Illuminate\Database\Eloquent\Casts\AsEncryptedCollection;
 use Illuminate\Database\Eloquent\Casts\AsStringable;
+use Illuminate\Database\Eloquent\Concerns\HasUniqueStringIds;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon as IlluminateCarbon;
@@ -244,6 +245,10 @@ class ModelCastHelper
             $modelInstance = $modelClassReflection->getNativeReflection()->newInstanceWithoutConstructor();
         } catch (ReflectionException) {
             throw new ShouldNotHappenException();
+        }
+
+        if ($modelClassReflection->hasTraitUse(HasUniqueStringIds::class)) {
+            $modelInstance->usesUniqueIds = true;
         }
 
         $modelCasts = $modelInstance->getCasts();
