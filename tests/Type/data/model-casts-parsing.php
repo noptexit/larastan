@@ -15,6 +15,11 @@ function test(ModelWithCasts $model): void
 
 class ModelWithCasts extends Model
 {
+    public function foo(): int
+    {
+        return 5;
+    }
+
     public function casts(): array
     {
         return [

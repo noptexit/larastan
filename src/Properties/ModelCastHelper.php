@@ -304,8 +304,16 @@ class ModelCastHelper
 
         $stmts = $this->parser->parseFile($fileName);
 
+        $castsMethodNode = (new NodeFinder())->findFirst($stmts, static function (Node $node) use ($castsMethod): bool {
+            return $node instanceof Node\Stmt\ClassMethod && $node->name->toString() === $castsMethod->getName();
+        });
+
+        if ($castsMethodNode === null) {
+            return new NullType();
+        }
+
         /** @var Node\Stmt\Return_|null $returnNode */
-        $returnNode = (new NodeFinder())->findFirstInstanceOf($stmts, Node\Stmt\Return_::class);
+        $returnNode = (new NodeFinder())->findFirstInstanceOf($castsMethodNode, Node\Stmt\Return_::class);
 
         if ($returnNode === null) {
             return new NullType();
