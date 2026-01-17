@@ -34,19 +34,20 @@ parameters:
     disableMigrationScan: true
 ```
 
-## `disableMigrationCache`
+## `enableMigrationCache`
 **default**: `false`
 
 Larastan caches parsed migrations and schema dumps between runs to speed up model property inference.
 Cache files are stored in PHPStan's temp directory and invalidated when migration or schema files change
 (based on file paths and modification times).
 
-Set this to `true` if you want to always re-scan migrations or if your temp directory is read-only.
+Caching is disabled by default. Set this to `true` to enable caching. Keep it `false` if you want to
+always re-scan migrations or if your temp directory is read-only.
 
 ### Example
 ```neon
 parameters:
-    disableMigrationCache: true
+    enableMigrationCache: true
 ```
 
 ## `squashedMigrationsPath`

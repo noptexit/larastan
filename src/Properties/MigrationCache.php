@@ -37,7 +37,7 @@ final class MigrationCache
 
     public function __construct(
         private string $cacheDirectory,
-        private bool $disabled = false,
+        private bool $enabled = false,
     ) {
     }
 
@@ -50,7 +50,7 @@ final class MigrationCache
      */
     public function remember(array $migrationFiles, array $schemaFiles, callable $callback): array
     {
-        if ($this->disabled) {
+        if (! $this->enabled) {
             return $callback();
         }
 

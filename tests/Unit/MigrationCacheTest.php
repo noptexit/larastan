@@ -32,7 +32,7 @@ class MigrationCacheTest extends TestCase
             mkdir($this->cacheDir);
         }
 
-        $this->cache = new MigrationCache($this->cacheDir);
+        $this->cache = new MigrationCache($this->cacheDir, true); // enabled = true
     }
 
     protected function tearDown(): void
@@ -111,7 +111,7 @@ class MigrationCacheTest extends TestCase
 
     public function testDisabledCacheAlwaysExecutesCallback(): void
     {
-        $cache          = new MigrationCache($this->cacheDir, true); // disabled = true
+        $cache          = new MigrationCache($this->cacheDir, false); // enabled = false
         $migrationFiles = [new SplFileInfo($this->createTempFile('mig1.php'))];
 
         // First call

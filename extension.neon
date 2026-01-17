@@ -32,7 +32,7 @@ parameters:
     checkConfigTypes: false
     checkAuthCallsWhenInRequestScope: false
     parseModelCastsMethod: false
-    disableMigrationCache: false
+    enableMigrationCache: false
 
 parametersSchema:
     checkOctaneCompatibility: bool()
@@ -58,7 +58,7 @@ parametersSchema:
     checkConfigTypes: bool()
     checkAuthCallsWhenInRequestScope: bool()
     parseModelCastsMethod: bool()
-    disableMigrationCache: bool()
+    enableMigrationCache: bool()
 
 conditionalTags:
     Larastan\Larastan\Rules\NoEnvCallsOutsideOfConfigRule:
@@ -488,7 +488,7 @@ services:
         class: Larastan\Larastan\Properties\MigrationCache
         arguments:
             cacheDirectory: %tmpDir%
-            disabled: %disableMigrationCache%
+            enabled: %enableMigrationCache%
 
     -
         class: Larastan\Larastan\Properties\ModelPropertyHelper
