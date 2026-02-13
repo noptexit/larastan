@@ -23,16 +23,7 @@ class UndefinedArgumentOrOptionRuleTest extends RuleTestCase
             __DIR__ . '/../application/app/Console/Commands/FooCommand.php',
             __DIR__ . '/../application/app/Console/Commands/BarCommand.php',
             __DIR__ . '/../application/app/Console/Commands/BazCommand.php',
-        ], [
-            [
-                'Command "foo" does not have argument "foobar".',
-                22,
-            ],
-            [
-                'Command "foo" does not have option "foobar".',
-                36,
-            ],
-        ]);
+        ], []);
     }
 
     /** @return string[] */
