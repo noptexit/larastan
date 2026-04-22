@@ -123,7 +123,7 @@ parsing the source file thus it might be slower and is disabled by default for t
 ```php
 class User extends Model
 {
-    public function casts(): array
+    protected function casts(): array
     {
         return [
             'string' => \Illuminate\Database\Eloquent\Casts\AsStringable::class . ':argument',
